@@ -272,11 +272,23 @@ class Sys3WRobotNI(System):
     def _state_dyn(self, t, state, action, disturb=[]):   
         Dstate = np.zeros(self.dim_state)
         
-
+        #state: np.array([x,y,theta])
+        #control: np.array([v,omega])
+       # Returns: next_state: np.array([x,y,theta])
+        #x,y,theta = state
+       # v,omega = control
+       # dt = self.dt 
+       # x_next = x + v * np.cos(theta) * dt 
+       # y_next = y + y * np.sin(theta) * dt
+        #theta_next = theta + omega * dt
+        #return np.array([x_next,y_next, theta_next])
         #####################################################################################################
         ############################# write down here math model of robot ###################################
         #####################################################################################################    
-             
+        L=2
+        Dstate[0]=action[0]*np.cos(state[2])
+        Dstate[1]=action[0]*np.sin(state[2])
+        Dstate[2]=action[0]/(L)*np.tan(action[1])
         return Dstate    
  
     def _disturb_dyn(self, t, disturb):
@@ -295,4 +307,4 @@ class Sys3WRobotNI(System):
         observation = np.zeros(self.dim_output)
         observation = state
         return observation
-
+print ('are you working in project')

@@ -550,12 +550,39 @@ class ControllerOptimalPredictive:
             return self.action_curr
 
 class N_CTRL:
+        def __init__(self):
+             self.linear_speed = 2
+             self.angular_speed = 3
+             self.counter = 0 # used for time tracking or logging
+    
+        def pure_loop(self, observation):
+            x, y, theta = observation
+            
+            x_goal, y_goal = 0.0, 0.0
 
-        #####################################################################################################
-        ########################## write down here nominal controller class #################################
-        #####################################################################################################
+            k_rho = 2.5
+            k_beta = -1.5
+            k_alpha =  3.2 
+            
+            #Error
+            dx = x_goal - x
+            dy = y_goal - y 
+            
+            # Normalize angles
+            rho = math.hypot(dx, dy)
+            alpha = math.atan2(dy, dx) - theta
+            beta = -theta - alpha
 
-        return [v,w]
+            alpha = (alpha + np.pi) % (2 * np.pi) - np.pi
+            beta = (beta + np.pi) % (2 * np.pi) - np.pi
+            
+            # Control Law
+            v = k_rho * rho
+            w = k_alpha * alpha + k_beta * beta
 
+            # goal
+            if -(np.pi) < alpha <=  -(np.pi)/2 or (np.pi)/2 < alpha <= (np.pi):
+               v=-v
 
+            return [v,w]
 
