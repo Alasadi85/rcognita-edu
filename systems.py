@@ -269,8 +269,8 @@ class Sys3WRobotNI(System):
             self.mu_disturb = self.pars_disturb[1]
             self.tau_disturb = self.pars_disturb[2]
     
-    def _state_dyn(self, t, state, action, disturb=[]):   
-        Dstate = np.zeros(self.dim_state)
+   # def _state_dyn(self, t, state, action, disturb=[]):   
+    #    Dstate = np.zeros(self.dim_state)
         
         #state: np.array([x,y,theta])
         #control: np.array([v,omega])
@@ -285,11 +285,29 @@ class Sys3WRobotNI(System):
         #####################################################################################################
         ############################# write down here math model of robot ###################################
         #####################################################################################################    
-        L=2
-        Dstate[0]=action[0]*np.cos(state[2])
-        Dstate[1]=action[0]*np.sin(state[2])
-        Dstate[2]=action[0]/(L)*np.tan(action[1])
-        return Dstate    
+       # L=2
+       # Dstate[0]=action[0]*np.cos(state[2])
+       # Dstate[1]=action[0]*np.sin(state[2])
+       # Dstate[2]=action[0]/(L)*np.tan(action[1])
+       # return Dstate   
+       
+    def _state_dyn(self, t, state, action, disturb=[]):
+     """
+    Standard kinematic model for a differential-drive robot.
+    state: [x, y, theta]
+    action: [v, omega] (linear velocity, angular velocity)
+    """
+     v = action[0]
+     omega = action[1]
+     theta = state[2]
+
+     Dstate = np.zeros(self.dim_state)
+     Dstate[0] = v * np.cos(theta)
+     Dstate[1] = v * np.sin(theta)
+     Dstate[2] = omega
+
+     return Dstate
+ 
  
     def _disturb_dyn(self, t, disturb):
         """

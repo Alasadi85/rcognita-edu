@@ -190,7 +190,13 @@ class Animator3WRobotNI(Animator):
         self.axs_ctrl = self.fig_sim.add_subplot(224, autoscale_on=False, xlim=(t0,t1), ylim=(1.1*np.min([v_min, omega_min]), 1.1*np.max([v_max, omega_max])), xlabel='t [s]')
         self.axs_ctrl.plot([t0, t1], [0, 0], 'k--', lw=0.75)   # Help line
         self.lines_ctrl = self.axs_ctrl.plot(t0, to_col_vec(action_init).T, lw=0.5)
-        self.axs_ctrl.legend(iter(self.lines_ctrl), ('v [m/s]', r'$\omega$ [rad/s]'), fancybox=True, loc='upper right')
+        lines = list(self.lines_ctrl)
+        labels = ['v [m/s]', r'$\omega$ [rad/s]']
+        if len(lines) >=len(labels):
+            self.axs_ctrl.legend(lines[:len(labels)], labels, fancybox=True, loc='upper right')
+        elif len(lines) > 0:
+            self.axs_ctrl.legend(lines, [f'var {i}' for i in range(len(lines))], fancybox=True, loc='upper right')
+        #self.axs_ctrl.legend(iter(self.lines_ctrl), ('v [m/s]', r'$\omega$ [rad/s]'), fancybox=True, loc='upper right')
         
         # Pack all lines together
         cLines = namedtuple('lines', ['line_traj', 'line_norm', 'line_alpha', 'line_run_obj', 'line_accum_obj', 'lines_ctrl'])
@@ -245,7 +251,7 @@ class Animator3WRobotNI(Animator):
             accum_obj = self.accum_obj        
             
         else:
-            self.simulator.sim_step()
+            #####self.simulator.sim_step()
             
             t, state, observation, state_full = self.simulator.get_sim_step_data()
             
@@ -257,6 +263,7 @@ class Animator3WRobotNI(Animator):
             action = self.ctrl_selector(t, observation, self.action_manual, self.ctrl_nominal, self.ctrl_benchmarking, self.ctrl_mode)
         
             self.sys.receive_action(action)
+            self.simulator.sim_step()
             self.ctrl_benchmarking.receive_sys_state(self.sys._state) 
             self.ctrl_benchmarking.upd_accum_obj(observation, action)
             

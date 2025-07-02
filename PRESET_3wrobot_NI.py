@@ -3,8 +3,7 @@ Preset: a 3-wheel robot (kinematic model a. k. a. non-holonomic integrator).
 
 """
   
-import pathlib  
-  
+import pathlib    
 import warnings
 import csv
 from datetime import datetime
@@ -17,6 +16,7 @@ import simulator
 import controllers
 import loggers
 import visuals
+import svgpath2mpl
 from utilities import on_key_press
 
 import argparse
@@ -36,6 +36,7 @@ parser = argparse.ArgumentParser(description=description)
 
 parser.add_argument('--ctrl_mode', metavar='ctrl_mode', type=str,
                     choices=['MPC',
+                             "LQR",
                              "N_CTRL"],
                     default='N_CTRL',
                     help='Control mode. Currently available: ' +
