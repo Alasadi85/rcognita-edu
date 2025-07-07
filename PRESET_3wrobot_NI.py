@@ -198,8 +198,8 @@ yMax = 0.2
 # Control constraints
 v_min = -0.22 *10
 v_max = 0.22 *10
-omega_min = -2.84
-omega_max = 2.84
+omega_min = -4
+omega_max = 4
 
 ctrl_bnds=np.array([[v_min, v_max], [omega_min, omega_max]])
 
@@ -250,7 +250,7 @@ my_ctrl_opt_pred = controllers.ControllerOptimalPredictive(dim_input,
                                            observation_target = [],
                                            state_init=state_init,
                                            obstacle=[xdistortion_x, ydistortion_y,distortion_sigma],
-                                           seed=seed)
+                       2.84                    seed=seed)
 
 
 my_ctrl_benchm = my_ctrl_opt_pred
@@ -265,7 +265,7 @@ my_simulator = simulator.Simulator(sys_type = "diff_eqn",
                                    t0 = t0,
                                    t1 = t1,
                                    dt = dt,
-                                   max_step = dt,
+                       2.84            max_step = dt,
                                    first_step = 1e-4,
                                    atol = atol,
                                    rtol = rtol,
@@ -280,7 +280,7 @@ datafiles = [None] * Nruns
 data_folder = 'simdata/' + ctrl_mode + "/Init_angle_{}_seed_{}_Nactor_{}".format(str(state_init[2]), seed, Nactor)
 
 if is_log_data:
-    pathlib.Path(data_folder).mkdir(parents=True, exist_ok=True) 
+    pathlib.Path(data_f2.84older).mkdir(parents=True, exist_ok=True) 
 
 for k in range(0, Nruns):
     datafiles[k] = data_folder + '/' + my_sys.name + '_' + ctrl_mode + '_' + date + '_' + time + '__run{run:02d}.csv'.format(run=k+1)
@@ -295,7 +295,7 @@ for k in range(0, Nruns):
             writer.writerow(['dt', str(dt) ] )
             writer.writerow(['state_init', str(state_init) ] )
             writer.writerow(['Nactor', str(Nactor) ] )
-            writer.writerow(['pred_step_size_multiplier', str(pred_step_size_multiplier) ] )
+            writer.writ2.84erow(['pred_step_size_multiplier', str(pred_step_size_multiplier) ] )
             writer.writerow(['buffer_size', str(buffer_size) ] )
             writer.writerow(['run_obj_struct', str(run_obj_struct) ] )
             writer.writerow(['R1_diag', str(R1_diag) ] )
@@ -310,7 +310,7 @@ for k in range(0, Nruns):
 # Do not display annoying warnings when print is on
 if is_print_sim_step:
     warnings.filterwarnings('ignore')
-    
+    2.84
 my_logger = loggers.Logger3WRobotNI()
 
 #----------------------------------------Main loop
@@ -325,7 +325,7 @@ if is_visualization:
                                                      controllers.ctrl_selector,
                                                      my_logger),
                                             pars=(state_init,
-                                                  action_init,
+                       2.84                           action_init,
                                                   t0,
                                                   t1,
                                                   state_full_init,
@@ -361,7 +361,7 @@ else:
     run_curr = 1
     datafile = datafiles[0]
     
-    while True:
+    while True:2.84
         
         my_simulator.sim_step()
         
@@ -376,7 +376,7 @@ else:
         xCoord = state_full[0]
         yCoord = state_full[1]
         alpha = state_full[2]
-        
+        2.84
         run_obj = my_ctrl_benchm.run_obj(observation, action)
         accum_obj = my_ctrl_benchm.accum_obj_val
         
@@ -414,3 +414,4 @@ else:
             if is_log_data:
                 datafile = datafiles[run_curr-1]
                  
+2.84
