@@ -14,52 +14,6 @@ import scipy as sp
 from utilities import rej_sampling_rvs
 
 class Simulator:
-    """
-    Class for simulating closed loops (system-controllers).
-      
-    Attributes
-    ----------
-    sys_type : : string
-        Type of system by description:
-            
-        | ``diff_eqn`` : differential equation :math:`\mathcal D state = f(state, u, q)`
-        | ``discr_fnc`` : difference equation :math:`state^+ = f(state, u, q)`
-        | ``discr_prob`` :  by probability distribution :math:`X^+ \sim P_X(state^+| state, u, q)`
-    
-    where:
-        
-        | :math:`state` : state
-        | :math:`u` : input
-        | :math:`q` : disturbance
-        
-    closed_loop_rhs : : function
-        Right-hand side description of the closed-loop system.
-        Say, if you instantiated a concrete system (i.e., as an instance of a subclass of ``system`` class with concrete ``closed_loop_rhs`` method) as ``my_sys``,
-        this could be just ``my_sys.closed_loop_rhs``.
-        
-    sys_out : : function
-        System output function.
-        Same as above, this could be, say, ``my_sys.out``.        
-        
-    is_dyn_ctrl : : 0 or 1
-        If 1, the controller (a.k.a. agent) is considered as a part of the full state vector.
-
-    state_init, disturb_init, action_init : : vectors
-        Initial values of the (open-loop) system state, disturbance and input.
-        
-    t0, t1, dt : : numbers
-        Initial, final times and time step size
-        
-    max_step, first_step, atol, rtol : : numbers
-        Parameters for an ODE solver (used if ``sys_type`` is ``diff_eqn``).
-        
-    See also
-    --------
-
-    ``systems`` module    
-   
-    """    
-    
     def __init__(self, sys_type,
                  closed_loop_rhs,
                  sys_out,
@@ -75,44 +29,6 @@ class Simulator:
                  rtol=1e-3,
                  is_disturb=0,
                  is_dyn_ctrl=0):
-        
-        """
-        Parameters
-        ----------
-        sys_type : : string
-            Type of system by description:
-                
-            | ``diff_eqn`` : differential equation :math:`\mathcal D state = f(state, u, q)`
-            | ``discr_fnc`` : difference equation :math:`state^+ = f(state, u, q)`
-            | ``discr_prob`` :  by probability distribution :math:`X^+ \sim P_X(state^+| state, u, q)`
-        
-        where:
-            
-            | :math:`state` : state
-            | :math:`u` : input
-            | :math:`q` : disturbance
-            
-        closed_loop_rhs : : function
-            Right-hand side description of the closed-loop system.
-            Say, if you instantiated a concrete system (i.e., as an instance of a subclass of ``System`` class with concrete ``closed_loop_rhs`` method) as ``my_sys``,
-            this could be just ``my_sys.closed_loop_rhs``.
-            
-        sys_out : : function
-            System output function.
-            Same as above, this could be, say, ``my_sys.out``.        
-            
-        is_dyn_ctrl : : 0 or 1
-            If 1, the controller (a.k.a. agent) is considered as a part of the full state vector.
-    
-        state_init, disturb_init, action_init : : vectors
-            Initial values of the (open-loop) system state, disturbance and input.
-            
-        t0, t1, dt : : numbers
-            Initial, final times and time step size
-            
-        max_step, first_step, atol, rtol : : numbers
-            Parameters for an ODE solver (used if ``sys_type`` is ``diff_eqn``).
-        """
         
         self.sys_type = sys_type
         self.closed_loop_rhs = closed_loop_rhs
@@ -217,8 +133,4 @@ class Simulator:
             # self.ODE_solver.t = self.t0
             # # self.ODE_solver.observation = self.state_full_init
             # # self.state_full = self.state_full_init
-            # self.ODE_solver.y = self.state_full_init
-        else:
-            self.t = self.t0
-            # self.state_full = self.state_full_init
-            self.ODE_solver.y = self.state_full_init
+            # self.ODE_so        Collect current simulation data: time, system state and output, and, for completeness, full closed-loop state.
