@@ -329,6 +329,8 @@ class LQRcontroller:
         # Cost matrices
         self.Q = np.diag([8, 8, 6])
         self.R = np.diag([2, 4])
+        #self.Q = np.diag([40, 40, 20])
+        #self.R = np.diag([10, 15])
 
     def compute_control(self, current_state, goal_state):
         # Add debug to confirm inputs
@@ -384,7 +386,7 @@ class MPCcontroller:
         # Cost weights
         self.Q = np.diag([4, 5, 3])
         self.R = np.diag([2, 3])
-        self.QF = np.diag([40, 40, 10])
+        self.QF = np.diag([80, 80, 20])
 
         self.n = 3
         self.m = 2
